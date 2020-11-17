@@ -4,17 +4,12 @@ import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 import * as dat from "dat.gui";
 import * as Stats from "stats.js";
 import * as TWEEN from "@tweenjs/tween.js";
-import * as Physijs from "physijs-webpack";
 
 
 class ThreeJSContainer {
     private scene: THREE.Scene;
-    private geometry: THREE.Geometry;
     private material: THREE.Material;
-    private cube: THREE.Mesh;
     private light: THREE.Light;
-    private torus: THREE.Mesh;
-    private uniforms: THREE.Uniform[];
     private cloader: ColladaLoader;
     private monkeyheadlambert: THREE.Mesh;
     private monkeyheadhalflambert: THREE.Mesh;
@@ -58,14 +53,18 @@ class ThreeJSContainer {
         const vert = require("./vertex.vs").default;
         const frag = require("./fragment.fs").default;
 
-        let otherUniforms = { modelcolor: new THREE.Uniform(new THREE.Vector3(0, 1, 0)) };
-        this.uniforms = THREE.UniformsUtils.merge([
+        let uniforms = {
+            modelcolor: new THREE.Uniform(new THREE.Vector3(0, 1, 0)),
+        }
+
+        uniforms = THREE.UniformsUtils.merge([
             THREE.UniformsLib["lights"],
-            otherUniforms
+            uniforms
         ]);
+
         this.material = new THREE.ShaderMaterial({
             lights: true,
-            uniforms: this.uniforms,
+            uniforms: uniforms,
             vertexShader: vert,
             fragmentShader: frag
         });
@@ -95,7 +94,9 @@ class ThreeJSContainer {
         // 毎フレームのupdateを呼んで，更新
         // reqest... により次フレームを呼ぶ
         const update = () => {
-
+            const rotXMat = new THREE.Matrix4();
+            rotXMat.makeRotationX(0.01);
+            this.light.position.copy(this.light.position.applyMatrix4(rotXMat));
 
             requestAnimationFrame(update);
         }
