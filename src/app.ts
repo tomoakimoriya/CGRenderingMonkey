@@ -1,9 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
-import * as dat from "dat.gui";
-import * as Stats from "stats.js";
-
 
 class ThreeJSContainer {
     private scene: THREE.Scene;
