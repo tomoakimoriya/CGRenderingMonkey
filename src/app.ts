@@ -85,16 +85,16 @@ class ThreeJSContainer {
 
 
         this.light = new THREE.DirectionalLight(0xffffff);
-        var lvec = new THREE.Vector3(1, 1, 1).normalize();
+        var lvec = new THREE.Vector3(1, 0, 0.5).normalize();
         this.light.position.set(lvec.x, lvec.y, lvec.z);
         this.scene.add(this.light);
 
         // 毎フレームのupdateを呼んで，更新
         // reqest... により次フレームを呼ぶ
         const update = () => {
-            const rotXMat = new THREE.Matrix4();
-            rotXMat.makeRotationX(0.01);
-            this.light.position.copy(this.light.position.applyMatrix4(rotXMat));
+            //const rotXMat = new THREE.Matrix4();
+            //rotXMat.makeRotationX(0.01);
+            //this.light.position.copy(this.light.position.applyMatrix4(rotXMat));
 
             requestAnimationFrame(update);
         }
