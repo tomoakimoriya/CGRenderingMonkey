@@ -4,6 +4,7 @@ import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 
 class ThreeJSContainer {
     private scene: THREE.Scene;
+    private defaultmaterial: THREE.Material;
     private material: THREE.Material;
     private light: THREE.Light;
     private cloader: ColladaLoader;
@@ -51,6 +52,9 @@ class ThreeJSContainer {
         const vert = require("./vertex.vs").default;
         const frag = require("./fragment.fs").default;
 
+        const defvert = require("./defaultvertex.vs").default;
+        const deffrag = require("./defaultfragment.fs").default;
+
         let uniforms = {
             modelcolor: new THREE.Uniform(new THREE.Vector3(0, 1, 0)),
         }
@@ -67,6 +71,13 @@ class ThreeJSContainer {
             fragmentShader: frag
         });
 
+        this.defaultmaterial = new THREE.ShaderMaterial({
+            lights: true,
+            uniforms: uniforms,
+            vertexShader: defvert,
+            fragmentShader: deffrag
+        });
+
         this.cloader = new ColladaLoader();
         this.cloader.load('monkey.dae', (result) => {
             console.log(result);
@@ -79,7 +90,7 @@ class ThreeJSContainer {
             this.monkeyheadlambert.position.set(0, 1.0, 0);
             this.monkeyheadhalflambert.position.set(0, -1.0, 0);
 
-            this.monkeyheadlambert.material = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
+            this.monkeyheadlambert.material = this.defaultmaterial;
             this.monkeyheadhalflambert.material = this.material;
         });
 
