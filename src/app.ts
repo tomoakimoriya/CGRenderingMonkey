@@ -55,13 +55,13 @@ class ThreeJSContainer {
         const defvert = require("./defaultvertex.vs").default;
         const deffrag = require("./defaultfragment.fs").default;
 
-        let uniforms = {
+        let myuniforms = {
             modelcolor: new THREE.Uniform(new THREE.Vector3(0, 1, 0)),
         }
 
-        uniforms = THREE.UniformsUtils.merge([
+        let uniforms = THREE.UniformsUtils.merge([
             THREE.UniformsLib["lights"],
-            uniforms
+            myuniforms
         ]);
 
         this.material = new THREE.ShaderMaterial({
